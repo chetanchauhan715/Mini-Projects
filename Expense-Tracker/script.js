@@ -14,6 +14,17 @@ const displayList = document.getElementById('transaction-list');
 
 
 // add transactions 
+function validateData(){
+    const description = amountDescription.value.trim() ;
+    const amount = enterAmount.value.trim();
+    if(description === "" || amount === ""){
+        alert("Please Enter valid input");
+        return false ;
+    }
+    return true;
+
+}
+
 function addTransaction(description , amount){
     const newTransaction = {
         id: data.length + 1,
@@ -21,17 +32,25 @@ function addTransaction(description , amount){
         amount : +amount
 
     }
-
+    
+    
     data.push(newTransaction);
-    console.log("New Transaction :" , newTransaction);
-    // console.log("Data :" , data);
+    
+    // console.log("New Transaction :" , newTransaction);
+    console.log("Data :" , data);
 };
 
 submitform.addEventListener('submit' , (e)=> {
     e.preventDefault();
+    if(!validateData()) return ;
     addTransaction(amountDescription.value , enterAmount.value);
 
+    
     updateUI();
+
+    amountDescription.value = "";
+    enterAmount.value = "";
+    // updateUI();
 }) ;
 
 
@@ -58,7 +77,12 @@ function getBalance(income , expense){
 
 function displayData(description , amount , id){
     const list = document.createElement('li');
-    list.textContent = `${amountDescription.value} ${enterAmount.value} `;
+    list.textContent = `${description}  ||  ${amount} `;
+    if(amount > 0){
+        list.style.background = "green";
+    } else {
+        list.style.background = "red";
+    }
 
     const dlt = document.createElement('button');
     dlt.textContent = "X";
@@ -80,15 +104,15 @@ function displayData(description , amount , id){
 function updateUI(){
     const income = getIncome();
     const expense = getExpense();
-    const balance = getBalance();
+    const balance = getBalance(income , expense);
 
     incomeAmount.textContent = income;
     expenseAmount.textContent = expense;
-    balanceAmount.textContent = getBalance(income , expense) ;
+    balanceAmount.textContent = balance;
+
+    displayList.innerHTML= "";
+    data.forEach(t => displayData(t.description , t.amount, t.id));  
     
-    const latest = data[data.length-1];
-    if(latest){
-        displayData(latest.description , latest.amount, latest.id);
-    }
+   
 }
 
