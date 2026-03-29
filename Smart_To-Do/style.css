@@ -11,6 +11,26 @@ body {
     padding: 20px;
   }
   
+  h2 {
+    display: flex;
+    justify-content: center;
+  }
+
+  form{
+    display: flex;
+    justify-content: center;
+  }
+
+ 
+
+  .filters{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+  }
+
+
   li {
     display: flex;
     justify-content: space-between;
